@@ -21,6 +21,8 @@ Each file is gzip-compressed newline-delimited JSON with one swap per line. The 
 - The V4 files record all V4 pools from 2026-09-18 22:40Z (`src` = `wide`). Before that they hold only a fixed set of tracked pools (`src` = `lock`) plus some gap-filled rows (`src` = `hole`). Most V4 pools have no rows before 2026-09-18 22:40Z, even though they traded on chain.
 - Treat a missing swap as "not recorded", never as "did not happen".
 
+**Known row fault (V4).** Rows with `src` = `lock` are labelled with the token's main pool. A swap on another pool of the same token can therefore carry the wrong `pool`, the wrong price orientation and a flipped `side`. This affects about 3,355 rows up to 2026-09-18 and about 67 a day after. Guard against implausible prints rather than trusting single rows.
+
 ## Row fields
 
 **V2/V3 (`tape-*`):**
